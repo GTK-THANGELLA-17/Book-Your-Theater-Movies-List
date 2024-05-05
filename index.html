@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Movie Theater</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F1F1F2;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #990011;
+            color: #121C2C;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .shining-outline {
+            text-shadow: 0 0 10px #FADA5E, 0 0 20px #FADA5E, 0 0 30px #FADA5E, 0 0 40px #FADA5E, 0 0 70px #FADA5E, 0 0 80px #FADA5E, 0 0 100px #FADA5E, 0 0 150px #FADA5E;
+        }
+
+       /* Projector icon styles */
+        .projector-left,
+        .projector-right {
+            animation: shineLight 3s infinite alternate;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+
+        @keyframes shineLight {
+            0% {
+                box-shadow: 0 0 50px 50px rgba(250, 218, 94, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 100px 100px rgba(250, 218, 94, 0);
+            }
+        }
+
+        .projector-left {
+            left: calc(80% - 60px);
+            transform: translateY(-90%) scaleX(-1);
+        }
+
+        .projector-right {
+            right: calc(80% - 60px);
+            transform: translateY(-90%);
+        }
+
+        /* Main Content */
+        main {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1;
+            position: relative;
+        }
+
+
+        /* Category Selector */
+        #category-selector {
+            margin-bottom: 20px;
+        }
+
+        /* Movie Cards */
+        .movie-card {
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 700px; /* Adjust width */
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+.profile-photo {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Maintain aspect ratio */
+    margin-right: 20px; /* Adjust spacing */
+}
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-details {
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .card-details h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Movie Card Icon */
+        .card-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-card:hover .overlay {
+            opacity: 1;
+        }
+
+        /* Selected Movie Section */
+        #selected-movie-section {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* About Popup */
+        #about-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #A7BEAE;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        #about-popup p {
+            margin-bottom: 15px;
+        }
+
+        #about-popup h3 {
+            margin-top: 0;
+        }
+
+        #about-popup button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color:  #F1F1F2;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+         /* Footer styles */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #990011;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        /* Icon styles */
+        .fas {
+            margin-right: 5px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Add more animations and styles as needed */
+ /* Search Bar */
+        #search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #search-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        #search-input:focus {
+            outline: none;
+            border-color: #990011;
+        }
+
+        #search-button {
+            padding: 10px 20px;
+            background-color: #990011;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1 class="shining-outline">Book Your Movie Theater-Select Movie</h1>
+        <div class="projector-left"><i class="fas fa-video"></i></div>
+        <div class="projector-right"><i class="fas fa-video"></i></div>
+        <button id="about-btn" onclick="toggleAboutPopup()"><i class="fas fa-info-circle"></i> About</button>
+    </header>
+
+    <!-- About Popup -->
+    <div id="about-popup">
+        <h3>About This Project</h3>
+        <p>This is a simple webpage for booking movie theaters. It allows users to select their desired movie and showtime. Enjoy!</p>
+        <button onclick="toggleAboutPopup()">Close</button>
+    </div>
+
+    <!-- Search Bar -->
+    <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search movies...">
+            <button id="search-button" onclick="searchMovies()"><i class="fas fa-search"></i></button>
+        </div>
+
+
+    <!-- Main Content -->
+    <main>
+        <!-- Category Selector -->
+        <select id="category-selector" onchange="populateMovieList(this.value)">
+            <option value="all">All</option>
+            <option value="telugu">Telugu</option>
+            <option value="hindi">Hindi</option>
+            <option value="english">English</option>
+        </select>
+
+        <!-- Movie Cards -->
+        <div id="movie-list-cards"></div>
+
+        <!-- Selected Movie Section -->
+        <div id="selected-movie-section">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="selected-movie-title">Movie Details</h2>
+                <div id="selected-movie-details"></div>
+                <button onclick="redirectToBooking()">OK</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Built and Designed By G. Thangella</p>
+    </footer>
+
+    <!-- JavaScript and Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Movie data
+       const movieData = {
+    telugu: [
+        { 
+            title: 'Pokiri (Telugu)', 
+            price: '₹1500', 
+            year: 2006, 
+            plot: 'Krishna, a police officer, disguises himself as a thug and joins the mafia in order to wipe out the underworld. Meanwhile, he falls in love with Shruti, an aerobics teacher.', 
+            cast: 'Mahesh Babu-Pandu, Prakash Raj-Ali Bhai, Ileana D\'Cruz-Shruti, Sayaji Shinde-Police Commissioner, Brahmanandam-Brahmy, SENassar-Surya Narayana', 
+            director: 'Puri Jagannadh', 
+            ratings: '4.5/5',
+            poster: '.\Assests\Images\Pokiri.jpg' // Add poster image path 
+        },
+        { 
+            title: 'Billa (Telugu)', 
+            price: '₹2000', 
+            year: 2009, 
+            plot: 'When Billa, a don, dies at the hands of ACP Murthy, he is replaced by Ranga, his lookalike, to infiltrate the gang. When Murthy is killed, Ranga is trapped since only Murthy knew the truth.', 
+            cast: 'Prabhas-Billa-Ranga, Anushka Shetty-Maya, Hansika-Priya, Krishnam Raju-Inspector Krishn', 
+            director: 'Meher Ramesh', 
+            ratings: '4.0/5' 
+        },
+        { 
+            title: 'Jalsa (Telugu)', 
+            price: '₹2500', 
+            year: 2008, 
+            plot: 'Sanjay, a young man, joins an extremist group after having had a tough childhood. A police officer decides to guide him towards a better path and in doing so, his daughter falls in love with Sanjay.', 
+            cast: 'Pawan Kalyan-Sanjay Sahu, Parvati Melton-Jyotsna, Jo, Ileana D\'Cruz-Bhagyamathi, Mahesh Babu-Narrator, Kamalinee Mukherjee-Indu, Prakash Raj-Rammohan Reddy, Sunil-Bunk Seenu, Brahmanandam-Pranav', 
+            director: 'Trivikram Srinivas', 
+            ratings: '4.2/5' 
+        }
+    ],
+ hindi: [
+        { 
+            title: '3 Idiots', 
+            price: '₹2000', 
+            year: 2009, 
+            plot: 'Two friends are searching for their long lost companion. They revisit their college days and recall the memories of their friend who inspired them to think differently, even as the rest of the world called them "idiots".', 
+            cast: 'Aamir Khan-Rancho, Kareena Kapoor-Kareena, R Madhavan-Farhan, Sharman Joshi-Raju, Boman Irani-Viru Sahastrabuddhe, Omi Vaidya-Chatur', 
+            director: 'Rajkumar Hirani', 
+            ratings: '4.3/5' 
+        },
+        { 
+            title: 'Dil Chahta Hai', 
+            price: '₹1800', 
+            year: 2001, 
+            plot: 'Three inseparable childhood friends are just out of college. Nothing comes between them - until they each fall in love, and their wildly different approaches to relationships creates tension.', 
+            cast: 'Aamir Khan-Akash, Saif Ali Khan-Sameer, Akshaye Khanna-Siddharth, Preity Zinta-Shalini, Sonali Kulkarni-Pooja, Dimple Kapadia-Tara Jaiswal', 
+            director: 'Farhan Akhtar', 
+            ratings: '4.4/5' 
+        },
+        { 
+            title: 'Lagaan', 
+            price: '₹2500', 
+            year: 2001, 
+            plot: 'In a rural Indian village, a young farmer challenges the oppressive British rule by leading a team of untrained men in a cricket match.', 
+            cast: 'Aamir Khan-Bhuvan, Gracy Singh-Gauri, Rachel Shelley-Elizabeth Russell, Paul Blackthorne-Captain Andrew Russell, Suhasini Mulay-Yashodamai', 
+            director: 'Ashutosh Gowariker', 
+            ratings: '4.5/5' 
+        }
+    ],
+
+    english: [
+        { 
+            title: 'The Shawshank Redemption', 
+            price: '₹2000', 
+            year: 1994, 
+            plot: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.', 
+            cast: 'Tim Robbins-Andy Dufresne, Morgan Freeman-Ellis Boyd "Red" Redding, Bob Gunton-Warden Norton, William Sadler-Heywood, Clancy Brown-Captain Byron T. Hadley', 
+            director: 'Frank Darabont', 
+            ratings: '4.7/5' 
+        },
+        { 
+            title: 'The Godfather', 
+            price: '₹2500', 
+            year: 1972, 
+            plot: 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.', 
+            cast: 'Marlon Brando-Don Vito Corleone, Al Pacino-Michael Corleone, James Caan-Sonny Corleone, Richard S. Castellano-Clemenza, Robert Duvall-Tom Hagen', 
+            director: 'Francis Ford Coppola', 
+            ratings: '4.8/5' 
+        },
+        { 
+            title: 'Inception', 
+            price: '₹3000', 
+            year: 2010, 
+            plot: 'A thief who enters the dreams of others to steal secrets from their subconscious gets the chance to have his criminal history erased as payment for a seemingly impossible task: "Inception" - planting an idea in someone\'s mind.', 
+            cast: 'Leonardo DiCaprio-Dom Cobb, Joseph Gordon-Levitt-Arthur, Ellen Page-Ariadne, Tom Hardy-Eames, Ken Watanabe-Saito, Marion Cotillard-Mal', 
+            director: 'Christopher Nolan', 
+            ratings: '4.6/5' 
+        }
+    ]
+};
+
+
+// Function to populate movie list based on selected language
+function populateMovieList(language) {
+    const movies = language === 'all' ? Object.values(movieData).flat() : movieData[language];
+    const movieList = document.getElementById('movie-list-cards');
+    movieList.innerHTML = '';
+    movies.forEach(movie => {
+        const card = document.createElement('div');
+        card.classList.add('movie-card');
+        card.innerHTML = `
+            <img src="${movie.poster}" alt="${movie.title}" class="poster"> <!-- Add poster image -->
+            <div class="card-details">
+                <h3>${movie.title}</h3>
+                <p>Price: ${movie.price}</p>
+                <p>Year: ${movie.year}</p>
+            </div>
+        `;
+        card.addEventListener('click', function() {
+            displayMovieDetails(movie);
+        });
+        movieList.appendChild(card);
+    });
+}
+
+// Function to display movie details
+function displayMovieDetails(movie) {
+    const modal = document.getElementById('selected-movie-section');
+    const selectedMovieTitle = document.getElementById('selected-movie-title');
+    const selectedMovieDetails = document.getElementById('selected-movie-details');
+    selectedMovieTitle.innerText = movie.title;
+    selectedMovieDetails.innerHTML = `
+        <p>Price: ${movie.price}</p>
+        <p>Year: ${movie.year}</p>
+        <p>Plot: ${movie.plot}</p>
+        <p>Cast: ${movie.cast}</p>
+        <p>Director: ${movie.director}</p>
+        <p>Ratings: ${movie.ratings}</p>
+    `;
+    modal.style.display = 'block';
+}
+
+// Function to close movie details modal
+function closeModal() {
+    const modal = document.getElementById('selected-movie-section');
+    modal.style.display = 'none';
+}
+
+// Function to redirect to booking page
+function redirectToBooking() {
+    // Redirect to booking page (replace 'booking.html' with actual URL)
+    window.location.href = 'booking.html';
+}
+
+// Function to toggle about popup visibility
+function toggleAboutPopup() {
+    const popup = document.getElementById('about-popup');
+    if (popup.style.display === 'block') {
+        popup.style.display = 'none';
+    } else {
+        popup.style.display = 'block';
+    }
+}
+
+// Function to search movies
+function searchMovies() {
+    const query = document.getElementById('search-input').value.toLowerCase();
+    const movies = Object.values(movieData).flat();
+    const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+    const movieList = document.getElementById('movie-list-cards');
+    movieList.innerHTML = '';
+    if (filteredMovies.length === 0) {
+        movieList.innerHTML = '<p>No movies found.</p>';
+    } else {
+        filteredMovies.forEach(movie => {
+            const card = document.createElement('div');
+            card.classList.add('movie-card');
+            card.innerHTML = `
+                <h3>${movie.title}</h3>
+                <p>Price: ${movie.price}</p>
+                <p>Year: ${movie.year}</p>
+            `;
+            card.addEventListener('click', function() {
+                displayMovieDetails(movie);
+            });
+            movieList.appendChild(card);
+        });
+    }
+}
+
+// Initial population of movie list
+populateMovieList('all');
+    </script>
+
+</body>
+</html>
