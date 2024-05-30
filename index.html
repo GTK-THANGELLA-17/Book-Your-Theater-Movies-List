@@ -7,260 +7,247 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         /* Global styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #F1F1F2;
-            min-height: 100vh;
-            position: relative;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F1F1F2;
+    min-height: 100vh;
+    position: relative;
+}
 
-        /* Header styles */
-        header {
-            background-color: #990011;
-            color: #121C2C;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 2;
-        }
+/* Header styles */
+header {
+    background-color: #990011;
+    color: #121C2C;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
 
+/* Projector icon styles */
+.projector-left,
+.projector-right {
+    animation: shineLight 3s infinite alternate;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
 
-        .shining-outline {
-            text-shadow: 0 0 10px #FADA5E, 0 0 20px #FADA5E, 0 0 30px #FADA5E, 0 0 40px #FADA5E, 0 0 70px #FADA5E, 0 0 80px #FADA5E, 0 0 100px #FADA5E, 0 0 150px #FADA5E;
-        }
+@keyframes shineLight {
+    0% {
+        box-shadow: 0 0 50px 50px rgba(250, 218, 94, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 100px 100px rgba(250, 218, 94, 0);
+    }
+}
 
-       /* Projector icon styles */
-        .projector-left,
-        .projector-right {
-            animation: shineLight 3s infinite alternate;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
+.projector-left {
+    left: calc(80% - 60px);
+    transform: translateY(-90%) scaleX(-1);
+}
 
+.projector-right {
+    right: calc(80% - 60px);
+    transform: translateY(-90%);
+}
 
-        @keyframes shineLight {
-            0% {
-                box-shadow: 0 0 50px 50px rgba(250, 218, 94, 0.8);
-            }
-            100% {
-                box-shadow: 0 0 100px 100px rgba(250, 218, 94, 0);
-            }
-        }
+/* Main Content */
+main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1;
+    position: relative;
+}
 
-        .projector-left {
-            left: calc(80% - 60px);
-            transform: translateY(-90%) scaleX(-1);
-        }
+/* Movie Cards */
+.movie-card {
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    width: 700px; /* Adjust width */
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-        .projector-right {
-            right: calc(80% - 60px);
-            transform: translateY(-90%);
-        }
-
-        /* Main Content */
-        main {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 1;
-            position: relative;
-        }
-
-
-        /* Category Selector */
-        #category-selector {
-            margin-bottom: 20px;
-        }
-
-        /* Movie Cards */
-        .movie-card {
-            border: 3px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px;
-            width: 700px; /* Adjust width */
-            box-sizing: border-box;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            position: relative;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-.profile-photo {
-    width: 100px; /* Adjust size as needed */
-    height: 100px; /* Adjust size as needed */
-    border-radius: 50%; /* Make it circular */
+.poster {
+    width: 150px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
     object-fit: cover; /* Maintain aspect ratio */
     margin-right: 20px; /* Adjust spacing */
 }
 
-        .movie-card:hover {
-            transform: scale(1.05);
-        }
+.movie-card:hover {
+    transform: scale(1.05);
+}
 
-        .card-details {
-            flex: 1;
-            padding: 0 20px;
-        }
+.card-details {
+    flex: 1;
+    padding: 0 20px;
+}
 
-        .card-details h3 {
-            margin-bottom: 10px;
-        }
+.card-details h3 {
+    margin-bottom: 10px;
+}
 
-        /* Movie Card Icon */
-        .card-icon {
-            font-size: 24px;
-            margin-right: 10px;
-        }
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
+.movie-card:hover .overlay {
+    opacity: 1;
+}
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+/* Selected Movie Section */
+#selected-movie-section {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
-        .movie-card:hover .overlay {
-            opacity: 1;
-        }
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
 
-        /* Selected Movie Section */
-        #selected-movie-section {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
+/* About Popup */
+#about-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #A7BEAE;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+}
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-        }
+#about-popup p {
+    margin-bottom: 15px;
+}
 
-        /* About Popup */
-        #about-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #A7BEAE;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            max-width: 80%;
-            max-height: 80%;
-            overflow-y: auto;
-        }
+#about-popup h3 {
+    margin-top: 0;
+}
 
-        #about-popup p {
-            margin-bottom: 15px;
-        }
+#about-popup button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color:  #F1F1F2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-        #about-popup h3 {
-            margin-top: 0;
-        }
+/* Footer styles */
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #990011;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    z-index: 2;
+    transition: position 0.3s ease; /* Add a transition effect for smoother animation */
+}
 
-        #about-popup button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color:  #F1F1F2;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.footer-fixed {
+    position: fixed;
+}
 
-         /* Footer styles */
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #990011;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            z-index: 2;
-        }
+/* Add more CSS rules for the fixed footer as needed */
 
-        /* Icon styles */
-        .fas {
-            margin-right: 5px;
-        }
+/* Icon styles */
+.fas {
+    margin-right: 5px;
+}
 
-        /* Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
-        /* Add more animations and styles as needed */
- /* Search Bar */
-        #search-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+/* Search Bar */
+#search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-        #search-input {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            margin-right: 10px;
-        }
+#search-input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
 
-        #search-input:focus {
-            outline: none;
-            border-color: #990011;
-        }
+#search-input:focus {
+    outline: none;
+    border-color: #990011;
+}
 
-        #search-button {
-            padding: 10px 20px;
-            background-color: #990011;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
+#search-button {
+    padding: 10px 20px;
+    background-color: #990011;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
 
     </style>
 </head>
@@ -319,8 +306,8 @@
     <!-- JavaScript and Font Awesome -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
-        // Movie data
-       const movieData = {
+       // Movie data
+const movieData = {
     telugu: [
         { 
             title: 'Pokiri (Telugu)', 
@@ -330,8 +317,9 @@
             cast: 'Mahesh Babu-Pandu, Prakash Raj-Ali Bhai, Ileana D\'Cruz-Shruti, Sayaji Shinde-Police Commissioner, Brahmanandam-Brahmy, SENassar-Surya Narayana', 
             director: 'Puri Jagannadh', 
             ratings: '4.5/5',
-            poster: '.\Assests\Images\Pokiri.jpg' // Add poster image path 
+            poster: './Assets/Images/Pokiri.jpg'
         },
+
         { 
             title: 'Billa (Telugu)', 
             price: '₹2000', 
@@ -421,20 +409,28 @@ function populateMovieList(language) {
     movies.forEach(movie => {
         const card = document.createElement('div');
         card.classList.add('movie-card');
-        card.innerHTML = `
-            <img src="${movie.poster}" alt="${movie.title}" class="poster"> <!-- Add poster image -->
-            <div class="card-details">
-                <h3>${movie.title}</h3>
-                <p>Price: ${movie.price}</p>
-                <p>Year: ${movie.year}</p>
-            </div>
+        const poster = document.createElement('img');
+        poster.src = movie.poster;
+        poster.alt = movie.title;
+        poster.classList.add('poster');
+        const cardDetails = document.createElement('div');
+        cardDetails.classList.add('card-details');
+        cardDetails.innerHTML = `
+            <h3>${movie.title}</h3>
+            <p>Price: ${movie.price}</p>
+            <p>Year: ${movie.year}</p>
         `;
+        card.appendChild(poster);
+        card.appendChild(cardDetails);
         card.addEventListener('click', function() {
             displayMovieDetails(movie);
         });
         movieList.appendChild(card);
     });
 }
+
+// Initial call to populate movie list with all movies
+populateMovieList('all');
 
 // Function to display movie details
 function displayMovieDetails(movie) {
@@ -503,7 +499,19 @@ function searchMovies() {
 
 // Initial population of movie list
 populateMovieList('all');
-    </script>
+
+window.addEventListener('scroll', function() {
+    var footer = document.querySelector('footer');
+    var scrollHeight = window.innerHeight + window.pageYOffset;
+    var fullHeight = document.body.offsetHeight;
+
+    if (scrollHeight >= fullHeight) {
+        footer.classList.add('footer-fixed');
+    } else {
+        footer.classList.remove('footer-fixed');
+    }
+});
+</script>
 
 </body>
 </html>
